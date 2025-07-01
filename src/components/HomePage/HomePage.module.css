@@ -1,0 +1,1190 @@
+/* Стили как на скриншоте - огромный контент */
+.fullContainer {
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(135deg, 
+    #0a0a15 0%, 
+    #141426 25%, 
+    #0f1728 50%, 
+    #141426 75%, 
+    #0a0a15 100%);
+  background-size: 400% 400%;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  animation: gradientMove 20s ease infinite;
+}
+
+@keyframes gradientMove {
+  0%, 100% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+}
+
+/* Фоновые элементы */
+.fullContainer::before {
+  content: '';
+  position: fixed;
+  top: 20%;
+  left: 10%;
+  width: 300px;
+  height: 300px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.1) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+  animation: float 15s ease-in-out infinite;
+}
+
+.fullContainer::after {
+  content: '';
+  position: fixed;
+  bottom: 20%;
+  right: 10%;
+  width: 200px;
+  height: 200px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 1;
+  opacity: 0.3;
+  animation: float 12s ease-in-out infinite reverse;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) scale(1); }
+  50% { transform: translateY(-20px) scale(1.05); }
+}
+
+/* Отступ сверху для контента из-за фиксированной навигации уже добавлен в fullContainer */
+
+/* Секция с описанием - огромные размеры */
+.introSection {
+  width: 100vw;
+  min-height: 100vh; 
+  background: transparent;  
+  display: flex; 
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  z-index: 10;
+  padding: 0 80px;
+  margin: -100px 0 0 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.introContent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  max-width: 1600px;
+  width: 100%;
+  gap: 120px;
+  animation: slideInFromBottom 1.2s ease-out;
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(60px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.textSection {
+  flex: 1;
+  max-width: 700px;
+  animation: slideInFromBottom 1s ease-out both;
+}
+
+
+.mainTitle {
+  font-size: 7rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin: 0 0 60px 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 0.9;
+  letter-spacing: -0.03em;
+}
+
+.description {
+  display: flex;
+  flex-direction: column;
+  gap: 32px;
+}
+
+.descriptionText {
+  font-size: 1.5rem;
+  color: #a0a0a0;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.imageSection {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  animation: slideInFromBottom 1s ease-out both;
+}
+
+
+
+.heroImage {
+  max-width: 100%;
+  max-height: 700px;
+  width: auto;
+  height: auto;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.heroImage:hover {
+  transform: scale(1.05);
+}
+
+
+
+.scrollIndicator {
+  position: absolute;
+  bottom: 60px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  animation: fadeInUp 1s ease-out 1s both, bounce 2s ease-in-out 2s infinite;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% { transform: translateX(-50%) translateY(0); }
+  40% { transform: translateX(-50%) translateY(-12px); }
+  60% { transform: translateX(-50%) translateY(-6px); }
+}
+
+.scrollArrow {
+  color: #6366f1;
+  transition: all 0.3s ease;
+  width: 48px;
+  height: 48px;
+  stroke-width: 2.5;
+}
+
+.scrollIndicator:hover .scrollArrow {
+  color: #818cf8;
+  transform: translateY(8px);
+}
+
+/* Стильная секция установщика */
+.installerSection {
+  width: 100vw;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  z-index: 10;
+  background: transparent;
+  padding: 60px 20px;
+  margin: 0;
+  border: none;
+  outline: none;
+  box-sizing: border-box;
+  vertical-align: top;
+}
+
+.mainPanel {
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.95) 0%, 
+    rgba(42, 45, 58, 0.90) 50%, 
+    rgba(26, 29, 41, 0.95) 100%);
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 24px;
+  padding: 40px;
+  width: 90%;
+  max-width: 700px;
+  box-shadow: 
+    0 25px 50px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+  position: relative;
+  overflow: hidden;
+}
+
+.mainPanel::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, 
+    transparent 0%, 
+    rgba(34, 197, 94, 0.6) 50%, 
+    transparent 100%);
+}
+
+.mainPanel.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+
+
+.header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+
+.logoIcon {
+  width: 52px;
+  height: 52px;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.logoText {
+  font-size: 32px;
+  font-weight: 800;
+  color: #ffffff;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.stepIndicator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 30px;
+  gap: 20px;
+}
+
+.step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #888;
+  transition: color 0.3s ease;
+}
+
+.step.active {
+  color: #ffffff;
+}
+
+.stepNumber {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 16px;
+  color: #888;
+  transition: all 0.3s ease;
+}
+
+.step.active .stepNumber {
+  background: #4ade80;
+  color: #000000;
+  animation: stepPulse 0.6s ease-out;
+}
+
+@keyframes stepPulse {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.15); }
+  100% { transform: scale(1); }
+}
+
+.stepText {
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.stepArrow {
+  color: #555;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.content {
+  margin-bottom: 30px;
+  min-height: 180px;
+  animation: contentFadeIn 0.5s ease-out;
+}
+
+@keyframes contentFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.stepContent h2 {
+  color: #ffffff;
+  font-size: 22px;
+  font-weight: 700;
+  margin-bottom: 16px;
+  line-height: 1.3;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.stepContent p {
+  color: #a0a0a0;
+  font-size: 16px;
+  line-height: 1.6;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.versionSelector {
+  margin-top: 24px;
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.6) 0%, 
+    rgba(42, 45, 58, 0.5) 100%);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  border-radius: 16px;
+  padding: 24px;
+  backdrop-filter: blur(10px);
+  transition: all 0.3s ease;
+}
+
+.versionSelector:hover {
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.8) 0%, 
+    rgba(42, 45, 58, 0.7) 100%);
+  border-color: rgba(34, 197, 94, 0.3);
+}
+
+.selectWrapper {
+  position: relative;
+}
+
+.selectWrapper::after {
+  content: '';
+  position: absolute;
+  top: 50%;
+  right: 16px;
+  width: 16px;
+  height: 16px;
+  background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%2322c55e' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6,9 12,15 18,9'%3e%3c/polyline%3e%3c/svg%3e");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.versionSelector label {
+  display: block;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 600;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.versionSelector label::before {
+  content: "🎮";
+  font-size: 18px;
+}
+
+.select {
+  width: 100%;
+  padding: 16px 20px;
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.8) 0%, 
+    rgba(42, 45, 58, 0.6) 100%);
+  border: 2px solid rgba(34, 197, 94, 0.2);
+  border-radius: 12px;
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  appearance: none;
+  padding-right: 50px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.select:hover {
+  border-color: rgba(34, 197, 94, 0.4);
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.9) 0%, 
+    rgba(42, 45, 58, 0.8) 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+
+.select:focus {
+  outline: none;
+  border-color: #22c55e;
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.9) 0%, 
+    rgba(42, 45, 58, 0.8) 100%);
+  box-shadow: 0 0 0 4px rgba(34, 197, 94, 0.2), 0 8px 25px rgba(0, 0, 0, 0.15);
+  transform: translateY(-1px);
+}
+
+.select option {
+  background: #1a1a1a;
+  color: #ffffff;
+  padding: 12px 16px;
+  border: none;
+  font-size: 16px;
+  font-weight: 500;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.select option:hover {
+  background: #2a2a2a;
+}
+
+.select option:checked {
+  background: #4ade80;
+  color: #000000;
+  font-weight: 600;
+}
+
+.select option:first-child {
+  background: #2a4a35;
+  color: #4ade80;
+  font-weight: 600;
+}
+
+.select option:first-child::after {
+  content: " ⭐";
+}
+
+.modsList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-top: 24px;
+}
+
+.modItem {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px;
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.6) 0%, 
+    rgba(42, 45, 58, 0.4) 100%);
+  border: 2px solid rgba(34, 197, 94, 0.1);
+  border-radius: 12px;
+  transition: all 0.3s ease;
+}
+
+.modItem:hover {
+  background: linear-gradient(135deg, 
+    rgba(26, 29, 41, 0.8) 0%, 
+    rgba(42, 45, 58, 0.6) 100%);
+  border-color: rgba(34, 197, 94, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+}
+
+.modItem input[type="checkbox"] {
+  width: 20px;
+  height: 20px;
+  accent-color: #4ade80;
+  cursor: pointer;
+}
+
+.modItem label {
+  color: #ffffff;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+  flex: 1;
+}
+
+.loadingContainer {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.loadingBar {
+  width: 100%;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.loadingProgress {
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  width: 0;
+  animation: loading 2s ease-in-out forwards;
+}
+
+@keyframes loading {
+  from {
+    width: 0%;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+.readyContainer {
+  text-align: center;
+  margin-top: 24px;
+}
+
+.checkmark {
+  width: 60px;
+  height: 60px;
+  background: #10b981;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  color: white;
+  margin: 0 auto 16px;
+  animation: checkmarkBounce 0.6s ease-out;
+}
+
+@keyframes checkmarkBounce {
+  0% { transform: scale(0); }
+  50% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+
+.actions {
+  text-align: center;
+}
+
+.continueBtn {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  color: #000000;
+  border: none;
+  padding: 18px 36px;
+  border-radius: 12px;
+  font-size: 17px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(34, 197, 94, 0.3);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.continueBtn:hover:not(:disabled) {
+  background: linear-gradient(135deg, #16a34a, #15803d);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 35px rgba(34, 197, 94, 0.4);
+  border-color: rgba(34, 197, 94, 0.4);
+}
+
+.continueBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.arrow {
+  font-size: 22px;
+  font-weight: 900;
+  font-family: Arial, sans-serif;
+  text-shadow: 0 0 1px rgba(0, 0, 0, 0.8);
+  transition: transform 0.3s ease;
+  line-height: 1;
+  display: flex;
+  align-items: center;
+  margin-top: -4px; /* Поднять стрелку на 2px вверх */
+}
+
+.continueBtn:hover:not(:disabled) .arrow {
+  transform: translateX(4px);
+}
+
+/* Подвал с авторством */
+.footer {
+  width: 100vw;
+  background: rgba(15, 12, 26, 0.8);
+  backdrop-filter: blur(20px);
+  padding: 50px 20px;
+  margin: 0;
+  border-top: 1px solid rgba(76, 222, 128, 0.2);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.footerContent {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s ease;
+}
+
+.footerLogo:hover {
+  transform: scale(1.05);
+}
+
+.footerLogoIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  filter: drop-shadow(0 4px 12px rgba(76, 222, 128, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.footerLogo:hover .footerLogoIcon {
+  filter: drop-shadow(0 6px 16px rgba(76, 222, 128, 0.5));
+}
+
+.footerLogoText {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4ade80, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 20px rgba(76, 222, 128, 0.3);
+}
+
+.copyright {
+  color: #71717a;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.copyright:hover {
+  opacity: 1;
+}
+
+/* Навигационная панель */
+.navigation {
+  position: relative;
+  width: 100%;
+  background: rgba(15, 12, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(76, 222, 128, 0.2);
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideDownFadeIn 0.8s ease-out;
+  z-index: 100;
+}
+
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  gap: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.navLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.navLogo:hover {
+  transform: scale(1.05);
+}
+
+.navLogoIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  filter: drop-shadow(0 4px 8px rgba(76, 222, 128, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.navLogo:hover .navLogoIcon {
+  filter: drop-shadow(0 6px 12px rgba(76, 222, 128, 0.5));
+}
+
+.navLogoText {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4ade80, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 20px rgba(76, 222, 128, 0.3);
+  background-size: 200% 200%;
+  animation: textGradientShift 3s ease infinite;
+}
+
+@keyframes textGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.navAuthor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a1a1aa;
+  font-size: 14px;
+  background: rgba(76, 222, 128, 0.1);
+  padding: 6px 14px;
+  border-radius: 25px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(76, 222, 128, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 222, 128, 0.1);
+}
+
+.navAuthor:hover {
+  background: rgba(76, 222, 128, 0.15);
+  border-color: rgba(76, 222, 128, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 222, 128, 0.2);
+}
+
+.authorText {
+  font-weight: 500;
+  color: #d4d4d8;
+}
+
+.authorName {
+  font-weight: 700;
+  color: #4ade80;
+  text-shadow: 0 0 10px rgba(76, 222, 128, 0.3);
+}
+
+.authorAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(76, 222, 128, 0.3);
+  transition: all 0.3s ease;
+}
+
+.navAuthor:hover .authorAvatar {
+  border-color: rgba(76, 222, 128, 0.6);
+  box-shadow: 0 0 10px rgba(76, 222, 128, 0.4);
+}
+
+.navCopyright {
+  color: #71717a;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 0px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.navCopyright:hover {
+  opacity: 1;
+}
+
+/* Анимации появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Секция инструкций */
+.instructionSection {
+  width: 100vw;
+  min-height: calc(100vh - 70px);
+  background: transparent;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 40px;
+}
+
+.instructionContent {
+  max-width: 800px;
+  width: 100%;
+  text-align: center;
+}
+
+.instructionTitle {
+  font-size: 4rem;
+  font-weight: 900;
+  color: #ffffff;
+  margin-bottom: 60px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.1;
+}
+
+.instructionSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+}
+
+.instructionStep {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 16px;
+  padding: 32px;
+  text-align: left;
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+}
+
+.instructionStep:hover {
+  background: rgba(255, 255, 255, 0.15);
+  transform: translateY(-4px);
+}
+
+.instructionStep h3 {
+  color: #ffffff;
+  font-size: 1.5rem;
+  font-weight: 700;
+  margin-bottom: 12px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+}
+
+.instructionStep p {
+  color: #a0a0a0;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* Заметка под селектором версий */
+.versionNote {
+  margin-top: 12px;
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  color: #a0a0a0;
+  font-size: 14px;
+  line-height: 1.4;
+  font-weight: 500;
+}
+
+.noteIcon {
+  font-size: 16px;
+  margin-top: 1px;
+}
+
+/* Адаптивность для больших экранов */
+@media (max-width: 1400px) {
+  .mainTitle {
+    font-size: 6rem;
+  }
+  
+  .descriptionText {
+    font-size: 1.3rem;
+  }
+  
+  .heroImage {
+    max-height: 600px;
+  }
+}
+
+@media (max-width: 1024px) {
+  .introSection {
+    padding: 0 60px;
+  }
+  
+  .introContent {
+    gap: 80px;
+  }
+  
+  .mainTitle {
+    font-size: 5rem;
+  }
+  
+  .descriptionText {
+    font-size: 1.2rem;
+  }
+  
+  .heroImage {
+    max-height: 500px;
+  }
+}
+
+@media (max-width: 768px) {
+  .introSection {
+    padding: 0 40px;
+  }
+  
+  .introContent {
+    flex-direction: column;
+    text-align: center;
+    gap: 50px;
+  }
+  
+  .mainTitle {
+    font-size: 4rem;
+    margin-bottom: 40px;
+  }
+  
+  .descriptionText {
+    font-size: 1.1rem;
+  }
+  
+  .heroImage {
+    max-height: 400px;
+  }
+  
+  .scrollArrow {
+    width: 40px;
+    height: 40px;
+  }
+  
+  .mainPanel {
+    padding: 30px;
+  }
+  
+  .logoText {
+    font-size: 28px;
+  }
+  
+  .footer {
+    padding: 35px 20px;
+  }
+  
+  .navigation {
+    padding: 0;
+  }
+  
+  .navContent {
+    padding: 10px 15px 10px 10px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .navTabs {
+    gap: 6px;
+  }
+
+  .authorText {
+    font-size: 13px;
+  }
+
+  .authorAvatar {
+    width: 28px;
+    height: 28px;
+  }
+  
+  .navTab {
+    padding: 10px 20px;
+    font-size: 14px;
+  }
+  
+  .instructionTitle {
+    font-size: 3rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .introSection {
+    padding: 0 20px;
+  }
+  
+  .mainTitle {
+    font-size: 3rem;
+  }
+  
+  .descriptionText {
+    font-size: 1rem;
+  }
+  
+  .heroImage {
+    max-height: 300px;
+  }
+  
+  .scrollArrow {
+    width: 36px;
+    height: 36px;
+  }
+  
+  .mainPanel {
+    padding: 20px;
+  }
+  
+  .logoText {
+    font-size: 24px;
+  }
+  
+  .stepIndicator {
+    gap: 12px;
+  }
+  
+  .stepText {
+    display: none;
+  }
+  
+  .footer {
+    padding: 30px 15px;
+  }
+  
+  .footerLogoText {
+    font-size: 18px;
+  }
+  
+  .copyright {
+    font-size: 13px;
+  }
+  
+  .navigation {
+    padding: 0;
+  }
+  
+  .navContent {
+    padding: 8px 15px 8px 10px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .navTabs {
+    gap: 6px;
+  }
+
+  .navTab {
+    padding: 10px 18px;
+    font-size: 13px;
+    border-radius: 20px;
+  }
+}
+
+.navAuthor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.navAuthor:hover {
+  opacity: 1;
+}
+
+.authorText {
+  color: #a0a0a0;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  transition: color 0.3s ease;
+}
+
+.navAuthor:hover .authorText {
+  color: #ffffff;
+}
+
+.authorAvatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: border-color 0.3s ease;
+}
+
+.navAuthor:hover .authorAvatar {
+  border-color: rgba(255, 255, 255, 0.4);
+}

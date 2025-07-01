@@ -1,0 +1,74 @@
+/* App.css */
+.app-container {
+  min-height: 100vh;
+  background: #12101e;
+}
+
+/* Контейнер загрузки */
+.loading-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: #12101e;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.loading-spinner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+/* Спиннер */
+.spinner {
+  width: 50px;
+  height: 50px;
+  border: 3px solid rgba(74, 222, 128, 0.1);
+  border-radius: 50%;
+  border-top: 3px solid #4ade80;
+  animation: spin 1s linear infinite;
+  box-shadow: 0 0 20px rgba(74, 222, 128, 0.3);
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Анимация появления контента */
+.app-container > * {
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Плавные переходы для ссылок */
+a {
+  transition: all 0.3s ease;
+}
+
+/* Оптимизация производительности */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Предотвращение мерцания при загрузке шрифтов */
+body {
+  font-display: swap;
+}

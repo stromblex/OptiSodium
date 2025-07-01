@@ -1,0 +1,762 @@
+/* Стили для страницы инструкций */
+.fullContainer {
+  width: 100vw;
+  min-height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  margin: 0;
+  padding: 0;
+  position: relative;
+  background: rgba(15, 12, 26, 0.95);
+  background-size: 400% 400%;
+  animation: gradientShift 15s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Фоновые декоративные элементы */
+.fullContainer::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 20% 30%, rgba(76, 222, 128, 0.1) 0%, transparent 50%),
+    radial-gradient(circle at 80% 70%, rgba(34, 197, 94, 0.08) 0%, transparent 50%),
+    radial-gradient(circle at 50% 50%, rgba(16, 185, 129, 0.05) 0%, transparent 50%);
+  z-index: -1;
+  animation: floatElements 20s ease-in-out infinite;
+}
+
+.fullContainer::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: 
+    radial-gradient(circle at 70% 20%, rgba(34, 197, 94, 0.04) 0%, transparent 40%),
+    radial-gradient(circle at 30% 80%, rgba(76, 222, 128, 0.06) 0%, transparent 40%);
+  z-index: -1;
+  animation: floatElements 25s ease-in-out infinite reverse;
+}
+
+@keyframes floatElements {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  33% {
+    transform: translateY(-20px) rotate(1deg);
+  }
+  66% {
+    transform: translateY(10px) rotate(-1deg);
+  }
+}
+
+/* Навигационная панель */
+.navigation {
+  position: relative;
+  width: 100%;
+  background: rgba(15, 12, 26, 0.95);
+  backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(76, 222, 128, 0.2);
+  padding: 0;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  animation: slideDownFadeIn 0.8s ease-out;
+  z-index: 100;
+}
+
+@keyframes slideDownFadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-100%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.navContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 8px 40px;
+  max-width: 1400px;
+  margin: 0 auto;
+  text-align: center;
+  gap: 4px;
+  user-select: none;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+}
+
+.navLogo {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: all 0.3s ease;
+}
+
+.navLogo:hover {
+  transform: scale(1.05);
+}
+
+.navLogoIcon {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  filter: drop-shadow(0 4px 8px rgba(76, 222, 128, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.navLogo:hover .navLogoIcon {
+  filter: drop-shadow(0 6px 12px rgba(76, 222, 128, 0.5));
+}
+
+.navLogoText {
+  font-size: 26px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4ade80, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 20px rgba(76, 222, 128, 0.3);
+  background-size: 200% 200%;
+  animation: textGradientShift 3s ease infinite;
+}
+
+@keyframes textGradientShift {
+  0%, 100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.navAuthor {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #a1a1aa;
+  font-size: 14px;
+  background: rgba(76, 222, 128, 0.1);
+  padding: 6px 14px;
+  border-radius: 25px;
+  backdrop-filter: blur(15px);
+  border: 1px solid rgba(76, 222, 128, 0.2);
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 15px rgba(76, 222, 128, 0.1);
+}
+
+.navAuthor:hover {
+  background: rgba(76, 222, 128, 0.15);
+  border-color: rgba(76, 222, 128, 0.3);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(76, 222, 128, 0.2);
+}
+
+.authorText {
+  font-weight: 500;
+  color: #d4d4d8;
+}
+
+.authorName {
+  font-weight: 700;
+  color: #4ade80;
+  text-shadow: 0 0 10px rgba(76, 222, 128, 0.3);
+}
+
+.authorAvatar {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(76, 222, 128, 0.3);
+  transition: all 0.3s ease;
+}
+
+.navAuthor:hover .authorAvatar {
+  border-color: rgba(76, 222, 128, 0.6);
+  box-shadow: 0 0 10px rgba(76, 222, 128, 0.4);
+}
+
+.navCopyright {
+  color: #71717a;
+  font-size: 13px;
+  font-weight: 400;
+  margin-top: 0px;
+  opacity: 0.8;
+  transition: opacity 0.3s ease;
+}
+
+.navCopyright:hover {
+  opacity: 1;
+}
+
+/* Анимации появления */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInFromBottom {
+  from {
+    opacity: 0;
+    transform: translateY(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Секция инструкций */
+.instructionSection {
+  width: 100vw;
+  min-height: calc(100vh - 70px);
+  background: transparent;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 100px 40px;
+  position: relative;
+}
+
+.instructionContent {
+  max-width: 950px;
+  width: 100%;
+  position: relative;
+  z-index: 10;
+}
+
+.instructionTitle {
+  font-size: 4.5rem;
+  font-weight: 900;
+  background: linear-gradient(135deg, #ffffff, #e5e7eb, #d1d5db);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  margin-bottom: 80px;
+  text-align: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  line-height: 1.1;
+  opacity: 0;
+  transform: translateY(50px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  text-shadow: 0 0 40px rgba(255, 255, 255, 0.1);
+  letter-spacing: -2px;
+}
+
+.instructionTitle.animate {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.instructionSteps {
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  margin-bottom: 80px;
+}
+
+.instructionStep {
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 24px;
+  padding: 0;
+  backdrop-filter: blur(20px);
+  border: 1px solid rgba(76, 222, 128, 0.15);
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(50px);
+  box-shadow: 
+    0 8px 32px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(255, 255, 255, 0.05),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+  position: relative;
+}
+
+.instructionStep::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: linear-gradient(135deg, rgba(76, 222, 128, 0.05), rgba(34, 197, 94, 0.02));
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  z-index: -1;
+}
+
+.instructionStep.animate {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out, background 0.4s ease, box-shadow 0.4s ease;
+}
+
+.instructionStep:hover {
+  background: rgba(255, 255, 255, 0.12);
+  transform: translateY(-8px);
+  border-color: rgba(76, 222, 128, 0.25);
+  box-shadow: 
+    0 20px 60px rgba(0, 0, 0, 0.3),
+    0 0 0 1px rgba(76, 222, 128, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.instructionStep:hover::before {
+  opacity: 1;
+}
+
+.stepNumber {
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #000;
+  font-size: 2.2rem;
+  font-weight: 900;
+  width: 90px;
+  min-height: 90px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  box-shadow: 
+    0 8px 24px rgba(76, 222, 128, 0.3),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stepNumber::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+  transition: left 0.6s ease;
+}
+
+.instructionStep:hover .stepNumber::before {
+  left: 100%;
+}
+
+.stepContent {
+  padding: 40px;
+  flex: 1;
+}
+
+.stepContent h3 {
+  color: #ffffff;
+  font-size: 1.85rem;
+  font-weight: 800;
+  margin-bottom: 18px;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  background: linear-gradient(135deg, #ffffff, #e5e7eb);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  line-height: 1.2;
+}
+
+.stepContent p {
+  color: #b4b4b8;
+  font-size: 1.15rem;
+  line-height: 1.7;
+  margin-bottom: 24px;
+  font-weight: 500;
+}
+
+.stepContent ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.stepContent li {
+  color: #d1d5db;
+  font-size: 1.05rem;
+  line-height: 1.6;
+  margin-bottom: 12px;
+  padding-left: 28px;
+  position: relative;
+  font-weight: 500;
+}
+
+.stepContent li::before {
+  content: "→";
+  position: absolute;
+  left: 0;
+  color: #4ade80;
+  font-weight: bold;
+  font-size: 1.2rem;
+  text-shadow: 0 0 10px rgba(76, 222, 128, 0.5);
+}
+
+/* Подвал с авторством */
+.footer {
+  width: 100vw;
+  background: rgba(15, 12, 26, 0.8);
+  backdrop-filter: blur(20px);
+  padding: 50px 20px;
+  margin: 0;
+  border-top: 1px solid rgba(76, 222, 128, 0.2);
+  box-shadow: 0 -8px 32px rgba(0, 0, 0, 0.2);
+}
+
+.footerContent {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+}
+
+.footerLogo {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  transition: all 0.3s ease;
+}
+
+.footerLogo:hover {
+  transform: scale(1.05);
+}
+
+.footerLogoIcon {
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  object-fit: cover;
+  filter: drop-shadow(0 4px 12px rgba(76, 222, 128, 0.3));
+  transition: filter 0.3s ease;
+}
+
+.footerLogo:hover .footerLogoIcon {
+  filter: drop-shadow(0 6px 16px rgba(76, 222, 128, 0.5));
+}
+
+.footerLogoText {
+  font-size: 22px;
+  font-weight: 800;
+  background: linear-gradient(135deg, #4ade80, #22c55e, #16a34a);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  letter-spacing: -0.5px;
+  text-shadow: 0 0 20px rgba(76, 222, 128, 0.3);
+}
+
+.copyright {
+  color: #71717a;
+  font-size: 14px;
+  text-align: center;
+  line-height: 1.6;
+  margin: 0;
+  font-weight: 400;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+}
+
+.copyright:hover {
+  opacity: 1;
+}
+
+/* Анимированная стрелка скролла */
+.scrollArrow {
+  position: fixed;
+  bottom: 45px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 500;
+  color: #4ade80;
+  font-size: 2.8rem;
+  cursor: pointer;
+  animation: bounceArrow 2s infinite;
+  transition: all 0.3s ease;
+  opacity: 0;
+  filter: drop-shadow(0 4px 12px rgba(76, 222, 128, 0.4));
+}
+
+.scrollArrow.show {
+  opacity: 0.9;
+}
+
+.scrollArrow:hover {
+  opacity: 1;
+  transform: translateX(-50%) scale(1.15);
+  color: #22c55e;
+  filter: drop-shadow(0 6px 16px rgba(76, 222, 128, 0.6));
+}
+
+@keyframes bounceArrow {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  40% {
+    transform: translateX(-50%) translateY(-12px);
+  }
+  60% {
+    transform: translateX(-50%) translateY(-6px);
+  }
+}
+
+/* Секция кнопки возврата на главную страницу */
+.backToHomeSection {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0px;
+  background: transparent;
+  margin-top: -100px;
+}
+
+.backToHomeBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 18px 36px;
+  background: linear-gradient(135deg, #4ade80, #22c55e);
+  color: #000;
+  border: none;
+  border-radius: 50px;
+  font-size: 16px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
+  box-shadow: 
+    0 8px 32px rgba(76, 222, 128, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+  min-width: 260px;
+  position: relative;
+  overflow: hidden;
+}
+
+.backToHomeBtn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.6s ease;
+}
+
+.backToHomeBtn:hover {
+  background: linear-gradient(135deg, #22c55e, #16a34a);
+  transform: translateY(-4px);
+  box-shadow: 
+    0 16px 48px rgba(76, 222, 128, 0.4),
+    0 0 0 1px rgba(255, 255, 255, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.3);
+}
+
+.backToHomeBtn:hover::before {
+  left: 100%;
+}
+
+.backToHomeBtn:active {
+  transform: translateY(-2px);
+  box-shadow: 
+    0 8px 24px rgba(76, 222, 128, 0.3),
+    0 0 0 1px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.2);
+}
+
+.backToHomeIcon {
+  font-size: 20px;
+  transition: transform 0.3s ease;
+}
+
+.backToHomeBtn:hover .backToHomeIcon {
+  transform: scale(1.1) rotate(-5deg);
+}
+
+/* Адаптивность */
+@media (max-width: 768px) {
+  .navigation {
+    padding: 0;
+  }
+
+  .navContent {
+    padding: 10px 15px 10px 10px;
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .navLogo {
+    gap: 10px;
+  }
+
+  .navLogoIcon {
+    width: 28px;
+    height: 28px;
+  }
+
+  .navLogoText {
+    font-size: 22px;
+  }
+
+  .instructionSection {
+    padding: 60px 20px;
+  }
+
+  .instructionTitle {
+    font-size: 3rem;
+    margin-bottom: 60px;
+  }
+
+  .instructionSteps {
+    gap: 30px;
+  }
+
+  .instructionStep {
+    flex-direction: column;
+  }
+
+  .stepNumber {
+    width: 100%;
+    min-height: 60px;
+    border-radius: 24px 24px 0 0;
+    font-size: 1.8rem;
+  }
+
+  .stepContent {
+    padding: 30px 25px;
+  }
+
+  .stepContent h3 {
+    font-size: 1.6rem;
+  }
+
+  .stepContent p {
+    font-size: 1rem;
+  }
+
+  .footer {
+    padding: 40px 20px;
+  }
+
+  .scrollArrow {
+    bottom: 35px;
+    font-size: 2.4rem;
+  }
+
+  .backToHomeBtn {
+    min-width: 220px;
+    padding: 16px 28px;
+  }
+}
+
+@media (max-width: 480px) {
+  .navigation {
+    padding: 0;
+  }
+  
+  .navContent {
+    padding: 8px 15px 8px 10px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 2px;
+  }
+
+  .navLogoText {
+    font-size: 20px;
+  }
+
+  .navLogoIcon {
+    width: 26px;
+    height: 26px;
+  }
+
+  .instructionSection {
+    padding: 40px 15px;
+  }
+
+  .instructionTitle {
+    font-size: 2.5rem;
+    margin-bottom: 50px;
+  }
+
+  .stepContent {
+    padding: 25px 20px;
+  }
+
+  .stepContent h3 {
+    font-size: 1.4rem;
+  }
+
+  .stepContent p {
+    font-size: 0.95rem;
+  }
+
+  .stepContent li {
+    font-size: 0.9rem;
+  }
+
+  .footer {
+    padding: 35px 15px;
+  }
+
+  .scrollArrow {
+    bottom: 30px;
+    font-size: 2.2rem;
+  }
+
+  .authorText {
+    font-size: 13px;
+  }
+
+  .authorAvatar {
+    width: 20px;
+    height: 20px;
+  }
+
+  .backToHomeBtn {
+    min-width: 200px;
+    padding: 14px 24px;
+    font-size: 14px;
+  }
+
+  .backToHomeIcon {
+    font-size: 18px;
+  }
+}
