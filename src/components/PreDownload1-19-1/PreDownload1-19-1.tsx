@@ -198,7 +198,7 @@ const PreDownload1191 = () => {
     {
       id: 'exordium',
       name: 'Exordium',
-      size: 0.05,
+      size: 0.21,
       description: 'Рендерит GUI с меньшей частотой кадров, освобождая ресурсы для рендеринга мира. Нет смысла рендерить интерфейс на 100+ FPS.',
       url: 'https://modrinth.com/mod/exordium',
       icon: 'Exordium.webp',

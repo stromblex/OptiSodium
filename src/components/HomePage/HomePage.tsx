@@ -63,6 +63,9 @@ const HomePage = () => {
     } else if (currentStep === 1 && selectedVersion === '1.19.3') {
       // Переход на страницу pre-download для версии 1.19.3
       window.location.href = '/pre-download-1-19-3';
+    } else if (currentStep === 1 && selectedVersion === '1.19.4') {
+      // Переход на страницу pre-download для версии 1.19.4
+      window.location.href = '/pre-download-1-19-4';
     } else if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {

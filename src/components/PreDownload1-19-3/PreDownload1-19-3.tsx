@@ -198,7 +198,7 @@ const PreDownload1193 = () => {
     {
       id: 'exordium',
       name: 'Exordium',
-      size: 0.05,
+      size: 0.21,
       description: 'Рендерит GUI с меньшей частотой кадров, освобождая ресурсы для рендеринга мира. Нет смысла рендерить интерфейс на 100+ FPS.',
       url: 'https://modrinth.com/mod/exordium',
       icon: 'Exordium.webp',
@@ -727,7 +727,7 @@ const PreDownload1193 = () => {
             </div>
             
             <a 
-              href="https://modrinth.com/mods?f=categories:decoration&g=categories:fabric&v=1.19.2" 
+              href="https://modrinth.com/mods?f=categories:decoration&g=categories:fabric&v=1.19.3" 
               target="_blank" 
               rel="noopener noreferrer"
               className={styles.decorationButton}

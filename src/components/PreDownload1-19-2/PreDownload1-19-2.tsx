@@ -217,7 +217,7 @@ const PreDownload1192 = () => {
     {
       id: 'bedrodium',
       name: 'Bedrodium',
-      size: 0.02,
+      size: 0.21,
       description: 'Оптимизирует слой бедрока, удаляя невидимые грани. Улучшает производительность для игроков с слабым железом.',
       url: 'https://modrinth.com/mod/bedrodium',
       icon: 'Bedrodium.png',

@@ -13,6 +13,8 @@ const PreDownload1192 = lazy(() => import('./components/PreDownload1-19-2/PreDow
 const Download1192 = lazy(() => import('./components/Download1-19-2/Download1-19-2'));
 const PreDownload1193 = lazy(() => import('./components/PreDownload1-19-3/PreDownload1-19-3'));
 const Download1193 = lazy(() => import('./components/Download1-19-3/Download1-19-3'));
+const PreDownload1194 = lazy(() => import('./components/PreDownload1-19-4/PreDownload1-19-4'));
+const Download1194 = lazy(() => import('./components/Download1-19-4/Download1-19-4'));
 
 // Компонент загрузки
 const LoadingFallback = () => (
@@ -46,6 +48,8 @@ function App() {
     import('./components/Download1-19-2/Download1-19-2');
     import('./components/PreDownload1-19-3/PreDownload1-19-3');
     import('./components/Download1-19-3/Download1-19-3');
+    import('./components/PreDownload1-19-4/PreDownload1-19-4');
+    import('./components/Download1-19-4/Download1-19-4');
   }, []);
 
   return (
@@ -62,6 +66,8 @@ function App() {
           <Route path="/download-1-19-2" element={<Download1192 />} />
           <Route path="/pre-download-1-19-3" element={<PreDownload1193 />} />
           <Route path="/download-1-19-3" element={<Download1193 />} />
+          <Route path="/pre-download-1-19-4" element={<PreDownload1194 />} />
+          <Route path="/download-1-19-4" element={<Download1194 />} />
         </Routes>
       </Suspense>
     </div>
