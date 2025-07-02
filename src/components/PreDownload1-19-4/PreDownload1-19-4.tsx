@@ -727,7 +727,7 @@ const PreDownload1194 = () => {
             </div>
             
             <a 
-              href="https://modrinth.com/mods?f=categories:decoration&g=categories:fabric&v=1.19.2" 
+              href="https://modrinth.com/mods?f=categories:decoration&g=categories:fabric&v=1.19.4" 
               target="_blank" 
               rel="noopener noreferrer"
               className={styles.decorationButton}
