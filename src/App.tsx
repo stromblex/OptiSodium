@@ -5,18 +5,8 @@ import './App.css';
 // Ленивая загрузка компонентов
 const HomePage = lazy(() => import('./components/HomePage/HomePage'));
 const InstallInstruction = lazy(() => import('./components/Install-Instruction/Install-Instruction'));
-const PreDownload119 = lazy(() => import('./components/PreDownload1-19/PreDownload1-19'));
-const Download119 = lazy(() => import('./components/Download1-19/Download1-19'));
-const PreDownload1191 = lazy(() => import('./components/PreDownload1-19-1/PreDownload1-19-1'));
-const Download1191 = lazy(() => import('./components/Download1-19-1/Download1-19-1'));
-const PreDownload1192 = lazy(() => import('./components/PreDownload1-19-2/PreDownload1-19-2'));
-const Download1192 = lazy(() => import('./components/Download1-19-2/Download1-19-2'));
-const PreDownload1193 = lazy(() => import('./components/PreDownload1-19-3/PreDownload1-19-3'));
-const Download1193 = lazy(() => import('./components/Download1-19-3/Download1-19-3'));
-const PreDownload1194 = lazy(() => import('./components/PreDownload1-19-4/PreDownload1-19-4'));
-const Download1194 = lazy(() => import('./components/Download1-19-4/Download1-19-4'));
-const PreDownload120 = lazy(() => import('./components/PreDownload1-20/PreDownload1-20'));
-const Download120 = lazy(() => import('./components/Download1-20/Download1-20'));
+const PreDownload = lazy(() => import('./components/PreDownload/PreDownload'));
+const Download = lazy(() => import('./components/Download/Download'));
 
 // Компонент загрузки
 const LoadingFallback = () => (
@@ -41,19 +31,9 @@ function App() {
   useEffect(() => {
     // Прелоадим основные компоненты
     import('./components/HomePage/HomePage');
-    import('./components/PreDownload1-19/PreDownload1-19');
-    import('./components/Download1-19/Download1-19');
+    import('./components/PreDownload/PreDownload');
+    import('./components/Download/Download');
     import('./components/Install-Instruction/Install-Instruction');
-    import('./components/PreDownload1-19-1/PreDownload1-19-1');
-    import('./components/Download1-19-1/Download1-19-1');
-    import('./components/PreDownload1-19-2/PreDownload1-19-2');
-    import('./components/Download1-19-2/Download1-19-2');
-    import('./components/PreDownload1-19-3/PreDownload1-19-3');
-    import('./components/Download1-19-3/Download1-19-3');
-    import('./components/PreDownload1-19-4/PreDownload1-19-4');
-    import('./components/Download1-19-4/Download1-19-4');
-    import('./components/PreDownload1-20/PreDownload1-20');
-    import('./components/Download1-20/Download1-20');
   }, []);
 
   return (
@@ -62,18 +42,22 @@ function App() {
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/instruction" element={<InstallInstruction />} />
-          <Route path="/pre-download-1-19" element={<PreDownload119 />} />
-          <Route path="/download-1-19" element={<Download119 />} />
-          <Route path="/pre-download-1-19-1" element={<PreDownload1191 />} />
-          <Route path="/download-1-19-1" element={<Download1191 />} />
-          <Route path="/pre-download-1-19-2" element={<PreDownload1192 />} />
-          <Route path="/download-1-19-2" element={<Download1192 />} />
-          <Route path="/pre-download-1-19-3" element={<PreDownload1193 />} />
-          <Route path="/download-1-19-3" element={<Download1193 />} />
-          <Route path="/pre-download-1-19-4" element={<PreDownload1194 />} />
-          <Route path="/download-1-19-4" element={<Download1194 />} />
-          <Route path="/pre-download-1-20" element={<PreDownload120 />} />
-          <Route path="/download-1-20" element={<Download120 />} />
+          <Route path="/predownload" element={<PreDownload />} />
+          <Route path="/download" element={<Download />} />
+          
+          {/* Устаревшие маршруты для обратной совместимости */}
+          <Route path="/pre-download-1-19" element={<PreDownload />} />
+          <Route path="/download-1-19" element={<Download />} />
+          <Route path="/pre-download-1-19-1" element={<PreDownload />} />
+          <Route path="/download-1-19-1" element={<Download />} />
+          <Route path="/pre-download-1-19-2" element={<PreDownload />} />
+          <Route path="/download-1-19-2" element={<Download />} />
+          <Route path="/pre-download-1-19-3" element={<PreDownload />} />
+          <Route path="/download-1-19-3" element={<Download />} />
+          <Route path="/pre-download-1-19-4" element={<PreDownload />} />
+          <Route path="/download-1-19-4" element={<Download />} />
+          <Route path="/pre-download-1-20" element={<PreDownload />} />
+          <Route path="/download-1-20" element={<Download />} />
         </Routes>
       </Suspense>
     </div>

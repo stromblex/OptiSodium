@@ -1,18 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
+import { getSupportedVersions } from '../../data/modsConfig';
 import styles from './HomePage.module.css';
 
 const HomePage = () => {
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedVersion, setSelectedVersion] = useState('1.21.5');
+  const supportedVersions = getSupportedVersions();
+  const [selectedVersion, setSelectedVersion] = useState(supportedVersions[0] || '1.19');
   const [isLoading, setIsLoading] = useState(false);
   const [isInstallerVisible, setIsInstallerVisible] = useState(false);
-  
   const installerRef = useRef<HTMLDivElement>(null);
-
-  const versions = [
-    '1.21.5', '1.21.4', '1.21.3', '1.21.2', '1.21.1', '1.21', '1.20.2', '1.20.1', '1.20',
-    '1.19.4', '1.19.3', '1.19.2', '1.19.1', '1.19'
-  ];
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -51,24 +47,9 @@ const HomePage = () => {
   };
 
   const handleContinue = () => {
-    if (currentStep === 1 && selectedVersion === '1.19') {
-      // Переход на страницу pre-download для версии 1.19
-      window.location.href = '/pre-download-1-19';
-    } else if (currentStep === 1 && selectedVersion === '1.19.1') {
-      // Переход на страницу pre-download для версии 1.19.1
-      window.location.href = '/pre-download-1-19-1';
-    } else if (currentStep === 1 && selectedVersion === '1.19.2') {
-      // Переход на страницу pre-download для версии 1.19.2
-      window.location.href = '/pre-download-1-19-2';
-    } else if (currentStep === 1 && selectedVersion === '1.19.3') {
-      // Переход на страницу pre-download для версии 1.19.3
-      window.location.href = '/pre-download-1-19-3';
-    } else if (currentStep === 1 && selectedVersion === '1.19.4') {
-      // Переход на страницу pre-download для версии 1.19.4
-      window.location.href = '/pre-download-1-19-4';
-    } else if (currentStep === 1 && selectedVersion === '1.20') {
-      // Переход на страницу pre-download для версии 1.20
-      window.location.href = '/pre-download-1-20';
+    if (currentStep === 1) {
+      // Переход на унифицированную страницу pre-download с параметром версии
+      window.location.href = `/predownload?version=${selectedVersion}`;
     } else if (currentStep < 3) {
       setCurrentStep(currentStep + 1);
     } else {
@@ -191,7 +172,7 @@ const HomePage = () => {
                       onChange={(e) => setSelectedVersion(e.target.value)}
                       className={styles.select}
                     >
-                      {versions.map((version, index) => (
+                      {supportedVersions.map((version, index) => (
                         <option key={version} value={version}>
                           {version} {index === 0 ? '(Рекомендуемая)' : ''}
                         </option>
