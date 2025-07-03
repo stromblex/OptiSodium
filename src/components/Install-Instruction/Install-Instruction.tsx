@@ -41,6 +41,9 @@ const InstallInstruction: React.FC = () => {
   const handleLogoClick = () => {
     navigate('/');
   };
+  const GithubLogoClick = () => {
+    window.open('https://github.com/stromblex/OptiSodium', '_blank');
+  };
 
   // Intersection Observer для анимации элементов
   useEffect(() => {
@@ -118,7 +121,7 @@ const InstallInstruction: React.FC = () => {
             />
             <span className={styles.navLogoText}>OptiSodium</span>
           </div>
-          <div className={styles.navAuthor}>
+          <div className={styles.navAuthor} onClick={GithubLogoClick} style={{ cursor: 'pointer' }}>
             <span className={styles.authorText}>Created by</span>
             <img 
               src="/assets/common/stromblex.png" 

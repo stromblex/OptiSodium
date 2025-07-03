@@ -62,6 +62,10 @@ const HomePage = () => {
     }
   };
 
+  const GithubLogoClick = () => {
+    window.open('https://github.com/stromblex/OptiSodium', '_blank');
+  };
+
   return (
     <div className={styles.fullContainer}>
       {/* Навигационная панель */}
@@ -75,7 +79,7 @@ const HomePage = () => {
             />
             <span className={styles.navLogoText}>OptiSodium</span>
           </div>
-          <div className={styles.navAuthor}>
+          <div className={styles.navAuthor} onClick={GithubLogoClick} style={{ cursor: 'pointer' }}>
             <span className={styles.authorText}>Created by</span>
             <img 
               src="/assets/common/stromblex.png" 

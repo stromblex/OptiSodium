@@ -21,9 +21,39 @@ export async function checkModExists(version: string, jarFileName: string): Prom
   try {
     // Преобразуем версию в правильный формат папки
     const folderVersion = version.replace(/\./g, '-');
-    const response = await fetch(`/assets/Download${folderVersion}/files/${jarFileName}`, { method: 'HEAD' });
-    return response.ok;
-  } catch {
+    
+    // Специальные случаи для конкретных модов
+    const modSpecialCases: Record<string, string[]> = {
+      'capes.jar': ['capes.jar', 'Capes.jar'],
+      'cem.jar': ['cem.jar', 'customentitymodels.jar'],
+      'Entity_Collision_FPS_Fix.jar': ['Entity_Collision_FPS_Fix.jar', 'entitycollisionfpsfix.jar'],
+      'chime.jar': ['chime.jar'],
+      'forgetmechunk.jar': ['forgetmechunk.jar']
+    };
+    
+    const variants = modSpecialCases[jarFileName] || [jarFileName];
+    
+    for (const variant of variants) {
+      try {
+        // Используем GET вместо HEAD для лучшей совместимости
+        const response = await fetch(`/assets/Download${folderVersion}/files/${variant}`, { 
+          method: 'GET',
+          cache: 'no-cache'
+        });
+        if (response.ok) {
+          console.log(`✅ Найден файл: ${variant} для версии ${version}`);
+          return true;
+        }
+      } catch (error) {
+        console.warn(`❌ Файл не найден: ${variant} для версии ${version}`, error);
+        continue;
+      }
+    }
+    
+    console.warn(`❌ Мод ${jarFileName} не найден для версии ${version}`);
+    return false;
+  } catch (error) {
+    console.error(`❌ Ошибка проверки мода ${jarFileName}:`, error);
     return false;
   }
 }
@@ -223,6 +253,27 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     dependsOn: 'fabric-api',
     jarFileName: 'yosbr.jar'
   },
+  {
+    id: 'exordium',
+    name: 'Exordium',
+    size: 0.02,
+    description: 'Отрисовывай интерфейс и экраны с меньшей частотой кадров, чтобы ускорить действительно важное — рендеринг мира.',
+    url: 'https://modrinth.com/mod/exordium',
+    icon: 'Exordium.webp',
+    required: true,
+    jarFileName: 'exordium.jar'
+  },
+    {
+    id: 'smoothboot',
+    name: 'Smooth Boot (Fabric)',
+    size: 0.08,
+    description: 'Оптимизирует загрузку игры, распределяя нагрузку между CPU ядрами. Уменьшает время запуска.',
+    url: 'https://modrinth.com/mod/smoothboot-fabric',
+    icon: 'Smooth Boot (Fabric).webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'smoothboot.jar'
+  },
   // Опциональные моды
   {
     id: 'animatica',
@@ -236,7 +287,7 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'animatica.jar'
   },
   {
-    id: 'betterbed',
+    id: 'betterbeds',
     name: 'BetterBeds',
     size: 0.05,
     description: 'Исправляет рендеринг кроватей, убирая красный экран при сне. Делает переход ко сну более плавным и комфортным для глаз.',
@@ -266,7 +317,7 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     icon: 'Custom Entity Models.webp',
     required: false,
     dependsOn: 'fabric-api',
-    jarFileName: 'customentitymodels.jar'
+    jarFileName: 'cem.jar'
   },
   {
     id: 'cit-resewn',
@@ -321,18 +372,7 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     icon: 'Entity Collision FPS Fix.webp',
     required: false,
     dependsOn: 'fabric-api',
-    jarFileName: 'entitycollisionfpsfix.jar'
-  },
-  {
-    id: 'exordium',
-    name: 'Exordium',
-    size: 0.07,
-    description: 'Рендерит GUI реже для повышения производительности.',
-    url: 'https://modrinth.com/mod/exordium',
-    icon: 'Exordium.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'exordium.jar'
+    jarFileName: 'Entity_Collision_FPS_Fix.jar'
   },
   {
     id: 'iris',
@@ -379,17 +419,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'lazydfu.jar'
   },
   {
-    id: 'memoryleakfix',
-    name: 'Memory Leak Fix',
-    size: 0.02,
-    description: 'Исправляет утечки памяти в клиенте.',
-    url: 'https://modrinth.com/mod/memoryleakfix',
-    icon: 'Memory Leak Fix.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'memoryleakfix.jar'
-  },
-  {
     id: 'mixintrace',
     name: 'MixinTrace',
     size: 0.03,
@@ -412,17 +441,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'modmenu.jar'
   },
   {
-    id: 'fabrishot',
-    name: 'Fabrishot',
-    size: 0.02,
-    description: 'Позволяет делать скриншоты в высоком разрешении.',
-    url: 'https://modrinth.com/mod/fabrishot',
-    icon: 'Fabrishot.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'fabrishot.jar'
-  },
-  {
     id: 'smoke-suppression',
     name: 'Smoke Suppression',
     size: 0.07,
@@ -434,16 +452,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'smoke-suppression.jar'
   },
   // Специфичные моды
-  {
-    id: 'chime',
-    name: 'Chime',
-    size: 0.11,
-    description: 'Добавляет приятные звуковые уведомления для различных событий в игре.',
-    url: 'https://modrinth.com/mod/chime',
-    icon: 'Chime.webp',
-    required: false,
-    jarFileName: 'chime.jar'
-  },
   {
     id: 'c2me',
     name: 'Concurrent Chunk Management Engine',
@@ -521,16 +529,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'fastquit.jar'
   },
   {
-    id: 'forgetmechunk',
-    name: 'ForgetMeChunk',
-    size: 0.01,
-    description: 'Предотвращает накопление чанков в памяти.',
-    url: 'https://modrinth.com/mod/forgetmechunk',
-    icon: 'ForgetMeChunk.webp',
-    required: false,
-    jarFileName: 'forgetmechunk.jar'
-  },
-  {
     id: 'bedrodium',
     name: 'Bedrodium',
     size: 0.05,
@@ -538,6 +536,7 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     url: 'https://modrinth.com/mod/bedrodium',
     icon: 'Bedrodium.png',
     required: false,
+    dependsOn: 'sodium',
     jarFileName: 'bedrodium.jar'
   },
   {
@@ -573,21 +572,45 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'noxesium.jar'
   },
   // Новые моды из mods.txt, которых не было в оригинальном списке
-  {
-    id: 'smoothboot',
-    name: 'Smooth Boot (Fabric)',
-    size: 0.08,
-    description: 'Оптимизирует загрузку игры, распределяя нагрузку между CPU ядрами. Уменьшает время запуска.',
-    url: 'https://modrinth.com/mod/smoothboot-fabric',
-    icon: 'Smooth Boot (Fabric).webp',
+ {
+    id: 'seaborgium',
+    name: 'Seaborgium',
+    size: 0.07,
+    description: 'Небольшой мод оптимизации рендеринга для Minecraft, увеличивающий производительность ванильного HUD.',
+    url: 'https://modrinth.com/mod/seaborgium',
+    icon: 'Seaborgium.webp',
     required: false,
     dependsOn: 'fabric-api',
-    jarFileName: 'smoothboot.jar'
-  }
+    jarFileName: 'seaborgium.jar'
+  },
+  {
+    id: 'chime',
+    name: 'Chime',
+    size: 0.11,
+    description: 'Добавляет приятные звуковые уведомления для различных событий в игре.',
+    url: 'https://modrinth.com/mod/chime',
+    icon: 'Chime.webp',
+    required: false,
+    jarFileName: 'chime.jar'
+  },
+  {
+    id: 'forgetmechunk',
+    name: 'ForgetMeChunk',
+    size: 0.01,
+    description: 'Предотвращает накопление чанков в памяти.',
+    url: 'https://modrinth.com/mod/forgetmechunk',
+    icon: 'ForgetMeChunk.webp',
+    required: false,
+    jarFileName: 'forgetmechunk.jar'
+  },
 ];
 
 // Конфигурация версий (порядок определяет приоритет - первая версия считается рекомендуемой)
 const VERSION_CONFIGS: Record<string, Omit<VersionConfig, 'mods'>> = {
+  '1.20.1': {
+    version: '1.20.1',
+    displayName: 'Minecraft 1.20.1'
+  },
   '1.20': {
     version: '1.20',
     displayName: 'Minecraft 1.20'

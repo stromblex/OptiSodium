@@ -691,6 +691,9 @@
   overflow: hidden;
   backdrop-filter: blur(10px);
   animation: cardSlideIn 0.6s cubic-bezier(0.4, 0, 0.2, 1) both;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
 }
 
 .modCard::before {
@@ -813,6 +816,9 @@
 .modInfo {
   position: relative;
   z-index: 2;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
 }
 
 .modHeader {
@@ -858,6 +864,7 @@
   justify-content: space-between;
   gap: 1rem;
   margin-top: auto;
+  padding-top: 1rem;
 }
 
 .modLink {

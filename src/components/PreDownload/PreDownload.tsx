@@ -39,6 +39,7 @@ const PreDownload = () => {
 
   // Начальное состояние с выбранными обязательными модами
   const [selectedMods, setSelectedMods] = useState<Set<string>>(new Set());
+  const [searchQuery, setSearchQuery] = useState<string>('');
   
   // Обновляем выбранные моды когда загружаются доступные
   useEffect(() => {
@@ -109,7 +110,10 @@ const PreDownload = () => {
   };
 
   const getModsByCategory = (required: boolean) => {
-    return availableMods.filter(mod => mod.required === required);
+    return availableMods
+      .filter(mod => mod.required === required)
+      .filter(mod => mod.name.toLowerCase().includes(searchQuery.toLowerCase()))
+      .sort((a, b) => a.name.localeCompare(b.name, 'ru', { sensitivity: 'base' }));
   };
 
   if (!versionConfig) {
@@ -246,6 +250,23 @@ const PreDownload = () => {
                   <span className={styles.categoryBadge + ' ' + styles.optional}>Опциональные</span>
                 </h2>
                 <div className={styles.categoryActions}>
+                  <input
+                    type="text"
+                    placeholder="Поиск модов..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className={styles.searchInput}
+                    style={{
+                      padding: '8px 12px',
+                      borderRadius: '6px',
+                      border: '1px solid #374151',
+                      backgroundColor: '#1f2937',
+                      color: '#fff',
+                      fontSize: '14px',
+                      marginRight: '12px',
+                      minWidth: '200px'
+                    }}
+                  />
                   <button 
                     className={styles.actionButton}
                     onClick={handleSelectAll}

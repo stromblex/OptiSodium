@@ -58,7 +58,8 @@ const Download = () => {
     if (version === '1.19.3') return 'Download1-19-3';
     if (version === '1.19.4') return 'Download1-19-4';
     if (version === '1.20') return 'Download1-20';
-    return 'Download1-20'; // fallback
+    if (version === '1.20.1') return 'Download1-20-1';
+    return 'Download1-20-1'; // fallback
   };
 
   const handleDownload = async () => {
@@ -80,15 +81,16 @@ const Download = () => {
         const mod = selectedMods[i];
         
         try {
-          // Пытаемся загрузить файл мода из папки assets
-          const response = await fetch(`/assets/${versionPath}/files/${mod.id}.jar`);
+          // Используем реальное имя файла из конфигурации мода
+          const fileName = mod.jarFileName || `${mod.id}.jar`;
+          const response = await fetch(`/assets/${versionPath}/files/${fileName}`);
           
           if (response.ok) {
             const blob = await response.blob();
-            modsFolder?.file(`${mod.id}.jar`, blob);
-            console.log(`✅ Успешно загружен файл ${mod.id}.jar`);
+            modsFolder?.file(fileName, blob);
+            console.log(`✅ Успешно загружен файл ${fileName}`);
           } else {
-            console.warn(`❌ Файл ${mod.id}.jar не найден (${response.status}), создаем информационный файл`);
+            console.warn(`❌ Файл ${fileName} не найден (${response.status}), создаем информационный файл`);
             // Если файл не найден, создаем фиктивный файл с информацией о моде
             const modInfo = `Мод: ${mod.name}\nОписание: ${mod.description}\nРазмер: ${mod.size} МБ\nСсылка: ${mod.url}`;
             modsFolder?.file(`${mod.id}_info.txt`, modInfo);
@@ -168,7 +170,7 @@ const Download = () => {
       const url = window.URL.createObjectURL(content);
       const link = document.createElement('a');
       link.href = url;
-      link.download = `optisodium${version.replace('.', '')}.zip`;
+      link.download = `optisodium-${version.replace('.', '')}.zip`;
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);
