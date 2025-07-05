@@ -28,7 +28,10 @@ export async function checkModExists(version: string, jarFileName: string): Prom
       'cem.jar': ['cem.jar', 'customentitymodels.jar'],
       'Entity_Collision_FPS_Fix.jar': ['Entity_Collision_FPS_Fix.jar', 'entitycollisionfpsfix.jar'],
       'chime.jar': ['chime.jar'],
-      'forgetmechunk.jar': ['forgetmechunk.jar']
+      'forgetmechunk.jar': ['forgetmechunk.jar'],
+      'indium.jar': ['indium.jar'],
+      'modernfix.jar': ['modernfix.jar'],
+      'nofade.jar': ['nofade.jar']
     };
     
     const variants = modSpecialCases[jarFileName] || [jarFileName];
@@ -58,9 +61,328 @@ export async function checkModExists(version: string, jarFileName: string): Prom
   }
 }
 
-// Все возможные моды с указанием .jar файлов
-const ALL_POSSIBLE_MODS: Mod[] = [
-  // Обязательные моды
+// Функция для определения версии (сравнение версий)
+function isVersionGreaterOrEqual(version: string, target: string): boolean {
+  const parseVersion = (v: string) => v.split('.').map(Number);
+  const versionParts = parseVersion(version);
+  const targetParts = parseVersion(target);
+  
+  for (let i = 0; i < Math.max(versionParts.length, targetParts.length); i++) {
+    const vPart = versionParts[i] || 0;
+    const tPart = targetParts[i] || 0;
+    
+    if (vPart > tPart) return true;
+    if (vPart < tPart) return false;
+  }
+  return true;
+}
+
+// Обязательные моды для версий 1.20.2 и выше
+const REQUIRED_MODS_1_20_2_PLUS: Mod[] = [
+  {
+    id: 'bedrodium',
+    name: 'Bedrodium',
+    size: 0.05,
+    description: 'Оптимизации для бедрока.',
+    url: 'https://modrinth.com/mod/bedrodium',
+    icon: 'Bedrodium.png',
+    required: true,
+    dependsOn: 'sodium',
+    jarFileName: 'bedrodium.jar'
+  },
+  {
+    id: 'c2me',
+    name: 'Concurrent Chunk Management Engine',
+    size: 1.26,
+    description: 'Улучшает производительность генерации и загрузки чанков за счет многопоточности. Значительно ускоряет загрузку мира и снижает лаги.',
+    url: 'https://modrinth.com/mod/c2me-fabric',
+    icon: 'Concurrent Chunk Management Engine (Fabric).webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'c2me.jar'
+  },
+  {
+    id: 'cloth-config',
+    name: 'Cloth Config API',
+    size: 1.11,
+    description: 'Библиотека для создания конфигурационных экранов в модах. Предоставляет унифицированный интерфейс для настройки модов с красивым GUI.',
+    url: 'https://modrinth.com/mod/cloth-config',
+    icon: 'Cloth Config API.webp',
+    required: true,
+    jarFileName: 'cloth-config.jar'
+  },
+  {
+    id: 'dynamic-fps',
+    name: 'Dynamic FPS',
+    size: 0.07,
+    description: 'Автоматически снижает FPS когда окно Minecraft неактивно или свёрнуто. Помогает сэкономить ресурсы процессора и видеокарты.',
+    url: 'https://modrinth.com/mod/dynamic-fps',
+    icon: 'Dynamic FPS.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'dynamic-fps.jar'
+  },
+  {
+    id: 'entityculling',
+    name: 'EntityCulling',
+    size: 0.05,
+    description: 'Скрывает рендеринг сущностей, которые находятся за стенами и не видны игроку. Существенно повышает FPS.',
+    url: 'https://modrinth.com/mod/entityculling',
+    icon: 'Entity Culling.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'entityculling.jar'
+  },
+  {
+    id: 'entity-view-distance',
+    name: 'Entity View Distance',
+    size: 0.24,
+    description: 'Позволяет настроить дальность отображения сущностей отдельно от дальности прорисовки блоков. Помогает оптимизировать производительность.',
+    url: 'https://modrinth.com/mod/entity-view-distance',
+    icon: 'Entity View Distance.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'entity-view-distance.jar'
+  },
+  {
+    id: 'exordium',
+    name: 'Exordium',
+    size: 0.02,
+    description: 'Отрисовывай интерфейс и экраны с меньшей частотой кадров, чтобы ускорить действительно важное — рендеринг мира.',
+    url: 'https://modrinth.com/mod/exordium',
+    icon: 'Exordium.webp',
+    required: true,
+    jarFileName: 'exordium.jar'
+  },
+  {
+    id: 'fabric-api',
+    name: 'Fabric API',
+    size: 2.06,
+    description: 'Основная библиотека для модов на Fabric. Предоставляет базовые API и хуки для работы модов.',
+    url: 'https://modrinth.com/mod/fabric-api',
+    icon: 'Fabric API.webp',
+    required: true,
+    jarFileName: 'fabric-api.jar'
+  },
+  {
+    id: 'ferritecore',
+    name: 'FerriteCore',
+    size: 0.12,
+    description: 'Оптимизирует использование памяти, сокращая потребление RAM на 30-40%. Особенно полезен на слабых компьютерах.',
+    url: 'https://modrinth.com/mod/ferrite-core',
+    icon: 'FerriteCore.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'ferritecore.jar'
+  },
+  {
+    id: 'ImmediatelyFast',
+    name: 'ImmediatelyFast',
+    size: 0.24,
+    description: 'Ускоряет немедленный рендеринг интерфейса и HUD элементов. Оптимизирует отрисовку GUI.',
+    url: 'https://modrinth.com/mod/immediatelyfast',
+    icon: 'ImmediatelyFast.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'ImmediatelyFast.jar'
+  },
+  {
+    id: 'indium',
+    name: 'Indium',
+    size: 0.07,
+    description: 'Дополнение для Sodium, добавляющее поддержку Fabric Rendering API.',
+    url: 'https://modrinth.com/mod/indium',
+    icon: 'indium.jar',
+    required: true,
+    dependsOn: 'sodium',
+    jarFileName: 'indium.jar'
+  },
+  {
+    id: 'iris',
+    name: 'Iris Shaders',
+    size: 2.38,
+    description: 'Добавляет поддержку шейдеров в Minecraft. Совместим с большинством шейдерпаков OptiFine и значительно улучшает визуальное качество игры.',
+    url: 'https://modrinth.com/mod/iris',
+    icon: 'Iris Shaders.webp',
+    required: true,
+    dependsOn: 'sodium',
+    jarFileName: 'iris.jar'
+  },
+  {
+    id: 'krypton',
+    name: 'Krypton',
+    size: 0.18,
+    description: 'Оптимизирует сетевой код Minecraft. Улучшает производительность сервера и снижает задержки в многопользовательской игре.',
+    url: 'https://modrinth.com/mod/krypton',
+    icon: 'Krypton.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'krypton.jar'
+  },
+  {
+    id: 'language-reload',
+    name: 'Language Reload',
+    size: 0.06,
+    description: 'Позволяет перезагружать языковые файлы без перезапуска игры. Полезно для разработчиков ресурс-паков.',
+    url: 'https://modrinth.com/mod/language-reload',
+    icon: 'Language Reload.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'language-reload.jar'
+  },
+  {
+    id: 'lazydfu',
+    name: 'LazyDFU',
+    size: 0.01,
+    description: 'Оптимизирует DataFixerUpper, ускоряя запуск игры. Особенно заметно улучшение времени загрузки при первом запуске.',
+    url: 'https://modrinth.com/mod/lazydfu',
+    icon: 'LazyDFU.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'lazydfu.jar'
+  },
+  {
+    id: 'lithium',
+    name: 'Lithium',
+    size: 0.63,
+    description: 'Всесторонняя оптимизация серверной части игры. Улучшает производительность ИИ мобов, физики блоков, генерации мира.',
+    url: 'https://modrinth.com/mod/lithium',
+    icon: 'Lithium.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'lithium.jar'
+  },
+  {
+    id: 'mixintrace',
+    name: 'MixinTrace',
+    size: 0.03,
+    description: 'Улучшает отладочную информацию при крашах, связанных с Mixin. Помогает разработчикам модов диагностировать проблемы.',
+    url: 'https://modrinth.com/mod/mixintrace',
+    icon: 'MixinTrace.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'mixintrace.jar'
+  },
+  {
+    id: 'modernfix',
+    name: 'ModernFix',
+    size: 0.45,
+    description: 'Всесторонний мод оптимизации для современных версий Minecraft.',
+    url: 'https://modrinth.com/mod/modernfix',
+    icon: 'modernfix.jar',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'modernfix.jar'
+  },
+  {
+    id: 'mod-menu',
+    name: 'Mod Menu',
+    size: 0.70,
+    description: 'Добавляет меню модов в игру. Позволяет просматривать список установленных модов и настраивать их прямо из игры.',
+    url: 'https://modrinth.com/mod/modmenu',
+    icon: 'Mod Menu.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'modmenu.jar'
+  },
+  {
+    id: 'moreculling',
+    name: 'More Culling',
+    size: 0.32,
+    description: 'Расширенная система отсечения (culling) для блоков и предметов. Не рендерит невидимые грани блоков.',
+    url: 'https://modrinth.com/mod/moreculling',
+    icon: 'More Culling.webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'moreculling.jar'
+  },
+  {
+    id: 'nofade',
+    name: 'NoFade',
+    size: 0.01,
+    description: 'Убирает эффект затухания при переходах между экранами.',
+    url: 'https://modrinth.com/mod/nofade',
+    icon: 'nofade.jar',
+    required: true,
+    jarFileName: 'nofade.jar'
+  },
+  {
+    id: 'reeses_sodium_options',
+    name: 'Reese\'s Sodium Options',
+    size: 0.05,
+    description: 'Альтернативное меню настроек для мода Sodium с улучшенным интерфейсом.',
+    url: 'https://modrinth.com/mod/reeses-sodium-options',
+    icon: 'Reese\'s Sodium Options.webp',
+    required: true,
+    dependsOn: 'sodium',
+    jarFileName: 'reeses_sodium_options.jar'
+  },
+  {
+    id: 'smoothboot',
+    name: 'Smooth Boot (Fabric)',
+    size: 0.08,
+    description: 'Оптимизирует загрузку игры, распределяя нагрузку между CPU ядрами. Уменьшает время запуска.',
+    url: 'https://modrinth.com/mod/smoothboot-fabric',
+    icon: 'Smooth Boot (Fabric).webp',
+    required: true,
+    dependsOn: 'fabric-api',
+    jarFileName: 'smoothboot.jar'
+  },
+  {
+    id: 'sodium',
+    name: 'Sodium',
+    size: 0.70,
+    description: 'Мощная оптимизация рендеринга, значительно повышающая FPS. Полностью переписывает систему отрисовки мира.',
+    url: 'https://modrinth.com/mod/sodium',
+    icon: 'Sodium.webp',
+    required: true,
+    jarFileName: 'sodium.jar'
+  },
+  {
+    id: 'sodium-extra',
+    name: 'Sodium Extra',
+    size: 0.33,
+    description: 'Дополнительные настройки для мода Sodium. Добавляет больше опций оптимизации.',
+    url: 'https://modrinth.com/mod/sodium-extra',
+    icon: 'Sodium Extra.webp',
+    required: true,
+    dependsOn: 'sodium',
+    jarFileName: 'sodium-extra.jar'
+  },
+  {
+    id: 'starlight',
+    name: 'Starlight',
+    size: 0.12,
+    description: 'Полностью переписанный движок освещения для максимальной производительности.',
+    url: 'https://modrinth.com/mod/starlight',
+    icon: 'Starlight (Fabric).webp',
+    required: true,
+    jarFileName: 'starlight.jar'
+  },
+  {
+    id: 'vmp',
+    name: 'Very Many Players',
+    size: 0.47,
+    description: 'Оптимизации для серверов с большим количеством игроков.',
+    url: 'https://modrinth.com/mod/vmp-fabric',
+    icon: 'Very Many Players (Fabric).webp',
+    required: true,
+    jarFileName: 'vmp.jar'
+  },
+  {
+    id: 'WI-Zoom',
+    name: 'WI Zoom',
+    size: 0.13,
+    description: 'Добавляет функцию приближения (zoom) в игру.',
+    url: 'https://modrinth.com/mod/wi-zoom',
+    icon: 'WI Zoom.webp',
+    required: true,
+    jarFileName: 'WI-Zoom.jar'
+  }
+];
+
+// Обязательные моды для версий до 1.20.2
+const REQUIRED_MODS_LEGACY: Mod[] = [
   {
     id: 'cloth-config',
     name: 'Cloth Config API',
@@ -263,7 +585,7 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     required: true,
     jarFileName: 'exordium.jar'
   },
-    {
+  {
     id: 'smoothboot',
     name: 'Smooth Boot (Fabric)',
     size: 0.08,
@@ -273,8 +595,11 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     required: true,
     dependsOn: 'fabric-api',
     jarFileName: 'smoothboot.jar'
-  },
-  // Опциональные моды
+  }
+];
+
+// Все возможные опциональные моды
+const OPTIONAL_MODS: Mod[] = [
   {
     id: 'animatica',
     name: 'Animatica',
@@ -375,28 +700,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'Entity_Collision_FPS_Fix.jar'
   },
   {
-    id: 'iris',
-    name: 'Iris Shaders',
-    size: 2.38,
-    description: 'Добавляет поддержку шейдеров в Minecraft. Совместим с большинством шейдерпаков OptiFine и значительно улучшает визуальное качество игры.',
-    url: 'https://modrinth.com/mod/iris',
-    icon: 'Iris Shaders.webp',
-    required: false,
-    dependsOn: 'sodium',
-    jarFileName: 'iris.jar'
-  },
-  {
-    id: 'krypton',
-    name: 'Krypton',
-    size: 0.18,
-    description: 'Оптимизирует сетевой код Minecraft. Улучшает производительность сервера и снижает задержки в многопользовательской игре.',
-    url: 'https://modrinth.com/mod/krypton',
-    icon: 'Krypton.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'krypton.jar'
-  },
-  {
     id: 'lambdynamiclights',
     name: 'LambDynamicLights',
     size: 0.55,
@@ -408,39 +711,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'lambdynamiclights.jar'
   },
   {
-    id: 'lazydfu',
-    name: 'LazyDFU',
-    size: 0.01,
-    description: 'Оптимизирует DataFixerUpper, ускоряя запуск игры. Особенно заметно улучшение времени загрузки при первом запуске.',
-    url: 'https://modrinth.com/mod/lazydfu',
-    icon: 'LazyDFU.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'lazydfu.jar'
-  },
-  {
-    id: 'mixintrace',
-    name: 'MixinTrace',
-    size: 0.03,
-    description: 'Улучшает отладочную информацию при крашах, связанных с Mixin. Помогает разработчикам модов диагностировать проблемы.',
-    url: 'https://modrinth.com/mod/mixintrace',
-    icon: 'MixinTrace.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'mixintrace.jar'
-  },
-  {
-    id: 'mod-menu',
-    name: 'Mod Menu',
-    size: 0.70,
-    description: 'Добавляет меню модов в игру. Позволяет просматривать список установленных модов и настраивать их прямо из игры.',
-    url: 'https://modrinth.com/mod/modmenu',
-    icon: 'Mod Menu.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'modmenu.jar'
-  },
-  {
     id: 'smoke-suppression',
     name: 'Smoke Suppression',
     size: 0.07,
@@ -450,29 +720,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     required: false,
     dependsOn: 'fabric-api',
     jarFileName: 'smoke-suppression.jar'
-  },
-  // Специфичные моды
-  {
-    id: 'c2me',
-    name: 'Concurrent Chunk Management Engine',
-    size: 1.26,
-    description: 'Улучшает производительность генерации и загрузки чанков за счет многопоточности. Значительно ускоряет загрузку мира и снижает лаги.',
-    url: 'https://modrinth.com/mod/c2me-fabric',
-    icon: 'Concurrent Chunk Management Engine (Fabric).webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'c2me.jar'
-  },
-  {
-    id: 'entity-view-distance',
-    name: 'Entity View Distance',
-    size: 0.24,
-    description: 'Позволяет настроить дальность отображения сущностей отдельно от дальности прорисовки блоков. Помогает оптимизировать производительность.',
-    url: 'https://modrinth.com/mod/entity-view-distance',
-    icon: 'Entity View Distance.webp',
-    required: false,
-    dependsOn: 'fabric-api',
-    jarFileName: 'entity-view-distance.jar'
   },
   {
     id: 'fabric-language-kotlin',
@@ -529,17 +776,6 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     jarFileName: 'fastquit.jar'
   },
   {
-    id: 'bedrodium',
-    name: 'Bedrodium',
-    size: 0.05,
-    description: 'Оптимизации для бедрока.',
-    url: 'https://modrinth.com/mod/bedrodium',
-    icon: 'Bedrodium.png',
-    required: false,
-    dependsOn: 'sodium',
-    jarFileName: 'bedrodium.jar'
-  },
-  {
     id: 'emf',
     name: 'Entity Model Features',
     size: 0.45,
@@ -571,8 +807,7 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     required: false,
     jarFileName: 'noxesium.jar'
   },
-  // Новые моды из mods.txt, которых не было в оригинальном списке
- {
+  {
     id: 'seaborgium',
     name: 'Seaborgium',
     size: 0.07,
@@ -603,10 +838,169 @@ const ALL_POSSIBLE_MODS: Mod[] = [
     required: false,
     jarFileName: 'forgetmechunk.jar'
   },
+  // Моды, которые стали опциональными для версий 1.20.2+, но обязательными для старых версий
+  {
+    id: 'enhancedblockentities',
+    name: 'Enhanced Block Entities',
+    size: 0.48,
+    description: 'Оптимизирует рендеринг блочных сущностей (сундуки, печи и т.д.), заменяя их на более быстрые baked models.',
+    url: 'https://modrinth.com/mod/ebe',
+    icon: 'Enhanced Block Entities.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'enhancedblockentities.jar'
+  },
+  {
+    id: 'main-menu-credits',
+    name: 'Main Menu Credits',
+    size: 0.01,
+    description: 'Добавляет информацию о модах и их создателях в главное меню игры.',
+    url: 'https://modrinth.com/mod/main-menu-credits',
+    icon: 'Main Menu Credits.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'main-menu-credits.jar'
+  },
+  {
+    id: 'yosbr',
+    name: 'Your Options Shall Be Respected',
+    size: 0.02,
+    description: 'Сохраняет пользовательские настройки при обновлении модпака. Предотвращает сброс настроек графики, управления и других параметров.',
+    url: 'https://modrinth.com/mod/yosbr',
+    icon: 'Your Options Shall Be Respected (YOSBR).webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'yosbr.jar'
+  },
+  // Моды, которые стали обязательными для версий 1.20.2+, но опциональными для старых версий
+  {
+    id: 'bedrodium',
+    name: 'Bedrodium',
+    size: 0.05,
+    description: 'Оптимизации для бедрока.',
+    url: 'https://modrinth.com/mod/bedrodium',
+    icon: 'Bedrodium.png',
+    required: false,
+    dependsOn: 'sodium',
+    jarFileName: 'bedrodium.jar'
+  },
+  {
+    id: 'c2me',
+    name: 'Concurrent Chunk Management Engine',
+    size: 1.26,
+    description: 'Улучшает производительность генерации и загрузки чанков за счет многопоточности. Значительно ускоряет загрузку мира и снижает лаги.',
+    url: 'https://modrinth.com/mod/c2me-fabric',
+    icon: 'Concurrent Chunk Management Engine (Fabric).webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'c2me.jar'
+  },
+  {
+    id: 'entity-view-distance',
+    name: 'Entity View Distance',
+    size: 0.24,
+    description: 'Позволяет настроить дальность отображения сущностей отдельно от дальности прорисовки блоков. Помогает оптимизировать производительность.',
+    url: 'https://modrinth.com/mod/entity-view-distance',
+    icon: 'Entity View Distance.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'entity-view-distance.jar'
+  },
+  {
+    id: 'iris',
+    name: 'Iris Shaders',
+    size: 2.38,
+    description: 'Добавляет поддержку шейдеров в Minecraft. Совместим с большинством шейдерпаков OptiFine и значительно улучшает визуальное качество игры.',
+    url: 'https://modrinth.com/mod/iris',
+    icon: 'Iris Shaders.webp',
+    required: false,
+    dependsOn: 'sodium',
+    jarFileName: 'iris.jar'
+  },
+  {
+    id: 'krypton',
+    name: 'Krypton',
+    size: 0.18,
+    description: 'Оптимизирует сетевой код Minecraft. Улучшает производительность сервера и снижает задержки в многопользовательской игре.',
+    url: 'https://modrinth.com/mod/krypton',
+    icon: 'Krypton.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'krypton.jar'
+  },
+  {
+    id: 'lazydfu',
+    name: 'LazyDFU',
+    size: 0.01,
+    description: 'Оптимизирует DataFixerUpper, ускоряя запуск игры. Особенно заметно улучшение времени загрузки при первом запуске.',
+    url: 'https://modrinth.com/mod/lazydfu',
+    icon: 'LazyDFU.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'lazydfu.jar'
+  },
+  {
+    id: 'mixintrace',
+    name: 'MixinTrace',
+    size: 0.03,
+    description: 'Улучшает отладочную информацию при крашах, связанных с Mixin. Помогает разработчикам модов диагностировать проблемы.',
+    url: 'https://modrinth.com/mod/mixintrace',
+    icon: 'MixinTrace.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'mixintrace.jar'
+  },
+  {
+    id: 'mod-menu',
+    name: 'Mod Menu',
+    size: 0.70,
+    description: 'Добавляет меню модов в игру. Позволяет просматривать список установленных модов и настраивать их прямо из игры.',
+    url: 'https://modrinth.com/mod/modmenu',
+    icon: 'Mod Menu.webp',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'modmenu.jar'
+  },
+  {
+    id: 'indium',
+    name: 'Indium',
+    size: 0.07,
+    description: 'Дополнение для Sodium, добавляющее поддержку Fabric Rendering API.',
+    url: 'https://modrinth.com/mod/indium',
+    icon: 'indium.jar',
+    required: false,
+    dependsOn: 'sodium',
+    jarFileName: 'indium.jar'
+  },
+  {
+    id: 'modernfix',
+    name: 'ModernFix',
+    size: 0.45,
+    description: 'Всесторонний мод оптимизации для современных версий Minecraft.',
+    url: 'https://modrinth.com/mod/modernfix',
+    icon: 'modernfix.jar',
+    required: false,
+    dependsOn: 'fabric-api',
+    jarFileName: 'modernfix.jar'
+  },
+  {
+    id: 'nofade',
+    name: 'NoFade',
+    size: 0.01,
+    description: 'Убирает эффект затухания при переходах между экранами.',
+    url: 'https://modrinth.com/mod/nofade',
+    icon: 'nofade.jar',
+    required: false,
+    jarFileName: 'nofade.jar'
+  }
 ];
 
 // Конфигурация версий (порядок определяет приоритет - первая версия считается рекомендуемой)
 const VERSION_CONFIGS: Record<string, Omit<VersionConfig, 'mods'>> = {
+  '1.20.2': {
+    version: '1.20.2',
+    displayName: 'Minecraft 1.20.2'
+  },
   '1.20.1': {
     version: '1.20.1',
     displayName: 'Minecraft 1.20.1'
@@ -637,13 +1031,28 @@ const VERSION_CONFIGS: Record<string, Omit<VersionConfig, 'mods'>> = {
   }
 };
 
+// Функция для получения всех модов для версии
+function getAllModsForVersion(version: string): Mod[] {
+  const is1202Plus = isVersionGreaterOrEqual(version, '1.20.2');
+  const requiredMods = is1202Plus ? REQUIRED_MODS_1_20_2_PLUS : REQUIRED_MODS_LEGACY;
+  
+  // Для всех версий исключаем из опциональных модов те, которые уже являются обязательными
+  const requiredModIds = new Set(requiredMods.map(mod => mod.id));
+  const optionalMods = OPTIONAL_MODS.filter(mod => !requiredModIds.has(mod.id));
+  
+  return [...requiredMods, ...optionalMods];
+}
+
 // Функция для получения модов для конкретной версии (динамическая фильтрация)
 export async function getModsForVersion(version: string): Promise<Mod[]> {
   console.log(`getModsForVersion вызвана для версии: ${version}`);
   
   try {
+    // Получаем все моды для версии
+    const allMods = getAllModsForVersion(version);
+    
     // Проверяем каждый мод на наличие в файловой системе
-    const modPromises = ALL_POSSIBLE_MODS.map(async (mod) => {
+    const modPromises = allMods.map(async (mod) => {
       if (mod.jarFileName) {
         try {
           const exists = await checkModExists(version, mod.jarFileName);
@@ -666,22 +1075,22 @@ export async function getModsForVersion(version: string): Promise<Mod[]> {
     // В этом случае возвращаем все моды как fallback
     if (filteredMods.length === 0) {
       console.warn(`Не найдено модов для версии ${version}, используем fallback`);
-      return ALL_POSSIBLE_MODS;
+      return allMods;
     }
     
     return filteredMods;
   } catch (error) {
     console.warn('Ошибка при динамической фильтрации модов, используем fallback:', error);
     // В случае ошибки возвращаем все моды
-    return ALL_POSSIBLE_MODS;
+    return getAllModsForVersion(version);
   }
 }
 
 // Синхронная версия для немедленного использования (без проверки файлов)
-export function getModsForVersionSync(_version: string): Mod[] {
+export function getModsForVersionSync(version: string): Mod[] {
   // Возвращаем все моды без проверки наличия файлов
   // Для использования в случаях, когда нужна синхронная работа
-  return ALL_POSSIBLE_MODS;
+  return getAllModsForVersion(version);
 }
 
 // Генерируем базовую конфигурацию для всех версий (без проверки файлов)
@@ -691,7 +1100,7 @@ Object.keys(VERSION_CONFIGS).forEach(version => {
   const config = VERSION_CONFIGS[version];
   MODS_CONFIG[version] = {
     ...config,
-    mods: ALL_POSSIBLE_MODS // Базовая конфигурация, реальная фильтрация через getModsForVersion
+    mods: getAllModsForVersion(version) // Базовая конфигурация, реальная фильтрация через getModsForVersion
   };
 });
 

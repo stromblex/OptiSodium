@@ -59,7 +59,8 @@ const Download = () => {
     if (version === '1.19.4') return 'Download1-19-4';
     if (version === '1.20') return 'Download1-20';
     if (version === '1.20.1') return 'Download1-20-1';
-    return 'Download1-20-1'; // fallback
+    if (version === '1.20.2') return 'Download1-20-2';
+    return 'Download1-20-2'; // fallback
   };
 
   const handleDownload = async () => {
